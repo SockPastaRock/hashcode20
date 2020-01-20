@@ -17,7 +17,7 @@ OUTPUT_DIR = "./local/output/"
 
 
 def slicesCombination(tar, slices):
-    """Docstring for max_slices"""
+    """See practice problem speccification."""
 
     slice_sums = [0]
     combinations = [[]]
@@ -49,16 +49,21 @@ def slicesCombination(tar, slices):
 
 
 def formatOutput(combination):
-    """Formats the output of the combination to hashcode specs"""
+    """Formats the output of the combination to hashcode specs."""
 
     return (str(len(combination)) + "\n" + str(combination)[1:-1]).replace(",", "")
 
 # }}}
+# {{{ runTests
 
-# }}}
 
-if __name__ == '__main__':
+def runTests(tests_dir):
+    """Runs all test files in the given directory."""
+
     for test_case in os.listdir(TESTS_DIR):
+        print()
+        print("Running test: " + str(test_case))
+
         with open(TESTS_DIR + test_case, "r") as f:
             target, num_pizzas = list(map(int, f.readline().split(" ")))
             slices = list(map(int, f.readline().split(" ")))
@@ -69,7 +74,15 @@ if __name__ == '__main__':
         os.makedirs(os.path.dirname(path_output), exist_ok=True)
         with open(path_output, "w") as f:
             f.write(result)
-            print("\n" + result + "\nWritten to: " + str(path_output))
+            print("Result written to: " + str(path_output))
+
+
+# }}}
+
+# }}}
+
+if __name__ == '__main__':
+    runTests(TESTS_DIR)
 
 """
 
