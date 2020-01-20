@@ -45,6 +45,15 @@ def slicesCombination(tar, slices):
     return combinations[min_diff_ix]
 
 # }}}
+# {{{ formatOutput
+
+
+def formatOutput(combination):
+    """Formats the output of the combination to hashcode specs"""
+
+    return (str(len(combination)) + "\n" + str(combination)[1:-1]).replace(",", "")
+
+# }}}
 
 # }}}
 
@@ -54,8 +63,7 @@ if __name__ == '__main__':
             target, num_pizzas = list(map(int, f.readline().split(" ")))
             slices = list(map(int, f.readline().split(" ")))
 
-        result = slicesCombination(target, slices)
-        result = str(result)[1:-1]
+        result = formatOutput(slicesCombination(target, slices))
 
         path_output = OUTPUT_DIR + "output_" + test_case[:test_case.rfind(".")] + ".txt"
         os.makedirs(os.path.dirname(path_output), exist_ok=True)
