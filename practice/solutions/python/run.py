@@ -7,7 +7,8 @@ import os
 # }}}
 # {{{ Constants
 
-TESTS_DIR = "./tests/"
+TESTS_DIR = "./local/tests/"
+OUTPUT_DIR = "./local/output/"
 
 # }}}
 # {{{ Functions
@@ -54,9 +55,13 @@ if __name__ == '__main__':
             slices = list(map(int, f.readline().split(" ")))
 
         result = slicesCombination(target, slices)
+        result = str(result)[1:-1]
 
-        print()
-        print(result)
+        path_output = OUTPUT_DIR + "output_" + test_case[:test_case.rfind(".")] + ".txt"
+        os.makedirs(os.path.dirname(path_output), exist_ok=True)
+        with open(path_output, "w") as f:
+            f.write(result)
+            print("\n" + result + "\nWritten to: " + str(path_output))
 
 """
 
