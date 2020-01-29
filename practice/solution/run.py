@@ -3,6 +3,7 @@
 # {{{ Imports
 
 import os
+import sys
 from tqdm import tqdm
 
 # }}}
@@ -37,7 +38,11 @@ def runTests(tests_dir, output_dir):
             tar, n = list(map(int, f.readline().split(" ")))
             arr = list(map(int, f.readline().split(" ")))
 
-        writeOutput(maxCombSum(tar, arr), test_case, output_dir)
+        try:
+            writeOutput(maxCombSum(tar, arr), test_case, output_dir)
+        except KeyboardInterrupt:
+            print("\ntest cancelled - KeyboardInterrupt")
+
 
 # }}}
 # {{{ writeOutput
@@ -68,7 +73,7 @@ def maxCombSum(tar, arr):
 
     u_ix = len(arr)  # upper bound index
 
-    total = 2**len(arr)
+    total = min(2**len(arr), sys.float_info.max)
     with tqdm(total=total) as pbar:
         while True:
 
