@@ -3,6 +3,7 @@
 # {{{ Imports
 
 import os
+from tqdm import tqdm
 
 # }}}
 # {{{ Constants
@@ -27,6 +28,7 @@ def main():
 def runTests(tests_dir, output_dir):
     """Runs all test files in the given directory."""
 
+    os.makedirs(tests_dir, exist_ok=True)
     for test_case in os.listdir(tests_dir):
         print()
         print("Running test: " + str(test_case))
@@ -65,32 +67,37 @@ def maxCombSum(tar, arr):
     local_comb = []
 
     u_ix = len(arr)  # upper bound index
-    while True:
 
-        u_ix -= 1
+    total = 2**len(arr)
+    with tqdm(total=total) as pbar:
+        while True:
 
-        for ix in range(u_ix, -1, -1):
+            u_ix -= 1
 
-            if local_sum + arr[ix] == tar:
-                local_comb.append(ix)
-                return local_comb
+            for ix in range(u_ix, -1, -1):
 
-            if local_sum + arr[ix] < tar:
-                local_sum += arr[ix]
-                local_comb.append(ix)
+                if local_sum + arr[ix] == tar:
+                    local_comb.append(ix)
+                    return local_comb
 
-        if local_sum > max_sum:
+                if local_sum + arr[ix] < tar:
+                    local_sum += arr[ix]
+                    local_comb.append(ix)
 
-            max_sum = local_sum
-            max_comb = local_comb.copy()
+            if local_sum > max_sum:
 
-        try:
-            u_ix = local_comb.pop()
-            local_sum -= arr[u_ix]
-        except IndexError:
-            break  # All combinations searched
+                max_sum = local_sum
+                max_comb = local_comb.copy()
 
-    return max_comb
+            try:
+                u_ix = local_comb.pop()
+                local_sum -= arr[u_ix]
+            except IndexError:
+                break  # All combinations searched
+
+            pbar.update(1)
+
+        return max_comb
 
 # }}}
 
