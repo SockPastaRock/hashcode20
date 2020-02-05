@@ -54,19 +54,7 @@ def runTests(tests_dir, output_dir):
         runtime += (stop - start)
 
     if runtime == 0:
-        abs_tests_path = (os.path.realpath(__file__)[:os.path.realpath(__file__).rfind("/")]
-            + TESTS_DIR[1:]
-        )
-        abs_data_path = (
-            os.path.realpath(__file__)[:os.path.realpath(__file__).rfind("/")]
-        )
-        abs_data_path = (
-            abs_data_path[:abs_data_path.rfind("/")]
-            + "/data/"
-        )
-        print("No test case files found in tests directory:\n\t" + abs_tests_path)
-        print("\nYou can find some default test cases to use in this project's data directory:\n\t" + abs_data_path)
-        print("\ncp " + abs_data_path + "* " + abs_tests_path)
+        print("No test case files found in tests directory.\nPlease run solution from inside solution directory.")
     else:
         print("\nCompleted all tests in : " + str(runtime) + " seconds")
 
