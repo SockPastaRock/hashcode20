@@ -70,8 +70,6 @@ def runTests(tests_dir, output_dir):
     else:
         print("\nCompleted all tests in : " + str(runtime) + " seconds")
 
-
-
 # }}}
 # {{{ writeOutput
 
@@ -85,35 +83,48 @@ def writeOutput(result, fname, output_dir):
     with open(output_dir + fname, "w") as f:
         f.write(s)
 
-    print("\tOutput written to: " + output_dir + fname)
+    print("output written to: " + output_dir + fname)
 
 # }}}
 # {{{ maxCombinationSum
 
 
 def maxCombinationSum(tar, arr):
-    """Returns combination in arr with largest sum less than or equal to tar. O(nlog(n))"""
 
-    n = len(arr)
-    u_bound = int("1" * n, 2)
-    l_bound = int("0" * n, 2)
+    max_sum = 0
+    max_comb = []
 
-    prev_ix = 0
-    ix = 1
-    while ix != prev_ix:  # binary search loop
-        prev_ix = ix
+    local_sum = 0
+    local_comb = []
 
-        mean = bin((u_bound + l_bound) >> 1)
-        ix = list(map(int, mean[-1:1:-1]))
-        ix += [0] * (n - len(ix))  # add padding bits
-        combination = [arr[i] for i in range(n) if ix[i]]
+    u_ix = len(arr)  # upper bound index
 
-        if sum(combination) <= tar:
-            l_bound = int(mean, 2)
-        else:
-            u_bound = int(mean, 2)
+    while True:
 
-    return [x for x in range(n) if ix[x]]
+        u_ix -= 1
+
+        for ix in range(u_ix, -1, -1):
+
+            if local_sum + arr[ix] == tar:
+                local_comb.append(ix)
+                return local_comb
+
+            if local_sum + arr[ix] < tar:
+                local_sum += arr[ix]
+                local_comb.append(ix)
+
+        if local_sum > max_sum:
+
+            max_sum = local_sum
+            max_comb = local_comb.copy()
+
+        try:
+            u_ix = local_comb.pop()
+            local_sum -= arr[u_ix]
+        except IndexError:
+            break  # All combinations searched
+
+    return max_comb
 
 # }}}
 
