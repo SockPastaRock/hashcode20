@@ -27,6 +27,7 @@ def main():
     arr = str(arr)[1:-1].replace(",", "")
     s = str(tar) + " " + str(num_elements) + "\n" + str(arr)
     print(s)
+    # $python3 random_test.py 100000000 2000 > rand_x.in
 
 # }}}
 
